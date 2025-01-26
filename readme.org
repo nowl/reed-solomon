@@ -1,0 +1,27 @@
+* Reed Solomon encoding in Common Lisp
+
+This was an investigation into understanding Reed Solomon error
+correction and implementing the basic encoding algorithm (no decoding)
+for RS(255,223) in Common Lisp.
+
+Primarily used
+https://en.wikiversity.org/wiki/Reed%E2%80%93Solomon_codes_for_coders
+and https://observablehq.com/@zavierhenry/encoding-qr-codes as
+references while developing this.
+
+** Example of use:
+
+#+begin_src lisp
+  (load "init")
+
+  (let* ((encoder (rs:make-encoder 'rs:prim-poly-8 13 7))
+         (input-data (mapcar 'char-code (coerce "Hello, world!" 'list)))
+         (encoded-message-bytes (rs:encode encoder input-data)))
+    (format t "~{~2,'0x~^ ~}" encoded-message-bytes))
+#+end_src
+
+Output check bytes:
+#+begin_src 
+5D 03 87 24 C2 3F 0D
+#+end_src
+
